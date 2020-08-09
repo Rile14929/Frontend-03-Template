@@ -8,7 +8,8 @@ http.createServer((request, response) => {
     }).on('data', (chunk) => {
         body.push(chunk);
     }).on('end', () => {
-        body = Buffer.concat(body).toString();
+        // body = Buffer.concat(body).toString();
+        body = body.join('')
         response.writeHead(200, { 'Content-Type': 'text/html' });
         response.end(' Hello World\n');
     });

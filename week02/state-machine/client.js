@@ -1,14 +1,16 @@
 const net = require('net')
+const parser = require('./parser.js')
 
 class ResponseParser {
   constructor() {
+    // 挑战： 常量如何修改为函数？
     this.WAITING_STATUS_LINE = 0
-    this.WAITING_STATUS_LINE_END = 1
+    this.WAITING_STATUS_LINE_END = 1 // 因为以/r/n分割
     this.WAITING_HEADER_NAME = 2
-    this.WAITING_HEADER_SPACE = 3
+    this.WAITING_HEADER_SPACE = 3 // 等待空格
     this.WAITING_HEADER_VALUE = 4
     this.WAITING_HEADER_LINE_END = 5
-    this.WAITING_HEADER_BLOCK_END = 6
+    this.WAITING_HEADER_BLOCK_END = 6 // 等待空行
     this.WAITING_BODY = 7
 
     this.current = this.WAITING_STATUS_LINE
@@ -49,9 +51,9 @@ class ResponseParser {
     } else if (this.current === this.WAITING_HEADER_NAME) {
       if (char === ':') {
         this.current = this.WAITING_HEADER_SPACE
-      } else if (char === '\r') {
+      } else if (char === '\r') { //没有WAITING_HEADER_VALUE的 \r ，可能是空行，header结束
         this.current = this.WAITING_HEADER_BLOCK_END
-        if (this.headers['Transfer-Encoding'] === 'chunked') {
+        if (this.headers['Transfer-Encoding'] === 'chunked') { // 创建bodyParser
           this.bodyParser = new ChunkedBodyParser()
         }
       } else {
@@ -119,6 +121,7 @@ class Request {
           connection.write(this.toString())
         })
       }
+
       connection.on('data', (data) => {
         parser.receive(data.toString())
         if (parser.isFinished) {
@@ -138,24 +141,6 @@ class Request {
   }
 }
 
-void async function () {
-  let request = new Request({
-    method: 'POST',
-    host: '127.0.0.1',
-    port: 8088,
-    path: '/',
-    headers: {
-      ['X-Foo2']: 'customed'
-    },
-    body: {
-      name: 'rile'
-    }
-  })
-
-  let response = await request.send()
-  console.log(response)
-}()
-
 class ChunkedBodyParser {
   constructor() {
     this.WAITING_LENGTH = 0
@@ -171,6 +156,7 @@ class ChunkedBodyParser {
   receiveChar(char) {
     if (this.current === this.WAITING_LENGTH) {
       if (char === '\r') {
+        console.log(this.length)
         if (this.length === 0) {
           this.isFinished = true
         }
@@ -193,8 +179,29 @@ class ChunkedBodyParser {
       if (char === '\r') {
         this.current = this.WAITING_NEW_LINE_END
       }
-    } else if (this.current === this.WAITING_BODY) {
-      this.bodyParser.receiveChar(char)
+    } else if (this.current === this.WAITING_NEW_LINE_END) {
+      if (char === '\n') {
+        this.current = this.WAITING_LENGTH
+      }
     }
   }
 }
+
+void async function () {
+  let request = new Request({
+    method: 'POST',
+    host: '127.0.0.1',
+    port: 8088,
+    path: '/',
+    headers: {
+      ['X-Foo2']: 'customed'
+    },
+    body: {
+      name: 'rile'
+    }
+  })
+  const response = await request.send()
+
+  console.log(response, 'response')
+
+}()

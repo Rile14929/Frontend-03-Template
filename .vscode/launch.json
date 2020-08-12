@@ -14,7 +14,7 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/week03/html-parse/7-combineText/client.js"
+      "program": "${workspaceFolder}/week03/css-computing/1/client.js"
     }
   ]
 }

@@ -9,6 +9,8 @@
       "type": "node",
       "request": "launch",
       "name": "1",
+      "protocol": "inspector",
+      "outputCapture": "std",
       "skipFiles": [
         "<node_internals>/**"
       ],

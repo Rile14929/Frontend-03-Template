@@ -3,7 +3,6 @@ let currentAttribute = null
 
 let stack = [{type: 'document', children: []}]
 function emit(token) {
-  // console.log(token)
   if (token.type === 'text') {
     return
   }
@@ -227,7 +226,26 @@ function UnquotedAttributeValue(c) {
 }
 
 function afterAttributeName(c) {
+  if (c.match(/^[\t\n\f ]$/)) {
+    return afterAttributeName
+  } else if (c == "/") {
+    return selfClosingStartTag
+  } else if (c == '=') {
+    return beforeAttributeValue
+  } else if (c == '>') {
+    currentToken[currentAttribute.name] = currentAttribute.value
+    emit(currentToken)
+    return data
+  } else if (c == EOF) {
 
+  } else {
+    currentToken[currentAttribute.name] = currentAttribute.value
+    currentAttribute = {
+      name: '',
+      value: ''
+    }
+    return attributeName(c)
+  }
 }
 
 function selfClosingStartTag(c) {
@@ -250,5 +268,5 @@ module.exports.parseHTML = function parseHTML(html) {
     state = state(c)
   }
   state = state(EOF)
-  // console.log(stack)
+  console.log(stack)
 }

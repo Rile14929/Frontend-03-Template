@@ -16,8 +16,6 @@ http.createServer((request, response) => {
     response.end(
       `<html lang=en>
           <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Document</title>
             <style>
               body div #myid {
@@ -32,8 +30,8 @@ http.createServer((request, response) => {
           </head>
           <body>
             <div>
-              <img id="myid"/>
               <img />
+              <img id="myid" />
             </div>
           </body>
           </html>

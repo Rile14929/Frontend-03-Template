@@ -30,6 +30,14 @@ function match(element, selector) {
     if (attr && attr.value === selector.replace('.', '')) {
       return true
     }
+    // class="body bodyDiv"
+    if (!selector.trim().includes(' ')) {
+      var attr = element.attributes.filter(attr => attr.name === 'class')[0]
+      let sel = selector.replace(/\./g, ' ').trim()
+      if (attr && attr.value === selector.replace(/\./g, ' ').trim()) {
+        return true
+      }
+    }
   } else {
     if (element.tagName === selector) {
       return true
@@ -45,7 +53,15 @@ function specificity(selector) {
     if (part.charAt(0) == '#') {
       p[1] += 1
     } else if (part.charAt(0) == '.') {
-      p[2] += 1
+      const partFilter = part.split('.').filter(item => !!item)
+      // .body.bodyDiv
+      if (partFilter.length > 1) {
+        for (let item of partFilter) {
+          p[2] += 1
+        }
+      } else {
+        p[2] += 1
+      }
     } else {
       p[3] += 1
     }
@@ -96,7 +112,7 @@ function computeCSS(element) {
     }
 
     if (matched) {
-      console.log('Element', element, "matched rule", rule)
+      // console.log('Element', element, "matched rule", rule)
       var sp = specificity(rule.selectors[0])
       var computedStyle = element.computedStyle
       for (var declaration of rule.declarations) {
@@ -395,5 +411,4 @@ module.exports.parseHTML = function parseHTML(html) {
   }
   state = state(EOF)
   return stack[0]
-  console.log(stack)
 }

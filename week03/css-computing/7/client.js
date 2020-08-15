@@ -202,10 +202,8 @@ void async function () {
 
   const response = await request.send()
 
-  console.log(response, 'response')
+  // console.log(response, 'response')
 
   let dom = parser.parseHTML(response.body)
-
-  console.log(dom)
 
 }()

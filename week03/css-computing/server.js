@@ -29,7 +29,7 @@ http.createServer((request, response) => {
             </style>
           </head>
           <body>
-            <div>
+            <div class="body bodyDiv">
               <img />
               <img id="myid" />
             </div>
@@ -40,3 +40,22 @@ http.createServer((request, response) => {
 }).listen(8088);
 
 console.log('server started');
+
+// `<html lang=en>
+//   <head>
+//     <title>Document</title>
+//     <style>
+//       .body.bodyDiv{
+//         width: 30px;
+//         background-color: #ff1111;
+//       }
+//     </style>
+//   </head>
+//   <body>
+//     <div class="body bodyDiv">
+//       <img />
+//       <img id="myid" />
+//     </div>
+//   </body>
+//   </html>
+// `

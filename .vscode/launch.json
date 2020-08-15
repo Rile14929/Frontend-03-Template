@@ -7,13 +7,13 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "5",
+      "name": "7",
       "protocol": "inspector",
       "outputCapture": "std",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/week03/css-computing/5/client.js"
+      "program": "${workspaceFolder}/week03/css-computing/7/client.js"
     }
   ]
 }

@@ -13,6 +13,7 @@ http.createServer((request, response) => {
     response.writeHead(200, {
       'Content-Type': 'text/html'
     });
+    // response.end(' my name 12\n')
     response.end(
       `<html lang=en>
           <head>
@@ -26,12 +27,19 @@ http.createServer((request, response) => {
                 width: 30px;
                 background-color: #ff1111;
               }
+              .body.bodyDiv{
+                width: 100px;
+                background-color: #000;
+              }
             </style>
           </head>
           <body>
-            <div class="body bodyDiv">
+            <div>
               <img />
               <img id="myid" />
+            </div>
+            <div class="body bodyDiv">
+              111
             </div>
           </body>
           </html>

@@ -15,11 +15,11 @@ function addCSSRules(text) {
   rules.push(...ast.stylesheet.rules)
 }
 
+// div.a#a
 function match(element, selector) {
   if (!selector || !element.attributes) {
     return false
   }
-
   if (selector.charAt(0) == '#') {
     var attr = element.attributes.filter(attr => attr.name === 'id')[0]
     if (attr && attr.value === selector.replace('#', '')) {
@@ -87,7 +87,7 @@ function compare(sp1, sp2) {
 function computeCSS(element) {
   // console.log(rules)
   // console.log('compute css for Element', element)
-  var elements = stack.slice().reverse()
+  var elements = stack.slice().reverse()  // 标签匹配从当前元素向外匹配
   if (!element.computedStyle) {
     element.computedStyle = {}
   }
@@ -205,23 +205,6 @@ function data(c) {
   }
 }
 
-function tagName(c) {
-  if (c.match(/^[\t\n\f ]$/)) {
-    return beforeAttributeName
-  } else if (c == '/') {
-    return selfClosingStartTag // 自封闭标签
-  } else if (c.match(/^[a-zA-Z]$/)) {
-    currentToken.tagName += c
-    return tagName
-  } else if (c == '>') {
-    emit(currentToken)
-    return data
-  } else {
-    currentToken.tagName += c
-    return tagName
-  }
-}
-
 // 标签开始
 function tagOpen(c) {
   if (c == '/') {
@@ -251,6 +234,36 @@ function endTagOpen(c) {
 
   } else {
 
+  }
+}
+
+// 自封闭标签
+function selfClosingStartTag(c) {
+  if (c == '>') {
+    currentToken.isSelfClosing = true
+    emit(currentToken);
+    return data
+  } else if (c == EOF) {
+
+  } else {
+
+  }
+}
+
+function tagName(c) {
+  if (c.match(/^[\t\n\f ]$/)) {
+    return beforeAttributeName
+  } else if (c == '/') {
+    return selfClosingStartTag // 自封闭标签
+  } else if (c.match(/^[a-zA-Z]$/)) {
+    currentToken.tagName += c
+    return tagName
+  } else if (c == '>') { // 普通的开始标签
+    emit(currentToken)
+    return data
+  } else {
+    currentToken.tagName += c
+    return tagName
   }
 }
 
@@ -387,18 +400,6 @@ function afterAttributeName(c) {
       value: ''
     }
     return attributeName(c)
-  }
-}
-
-function selfClosingStartTag(c) {
-  if (c == '>') {
-    currentToken.isSelfClosing = true
-    emit(currentToken);
-    return data
-  } else if (c == EOF) {
-
-  } else {
-
   }
 }
 

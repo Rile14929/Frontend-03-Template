@@ -37,6 +37,45 @@ class ResponseParser {
       this.receiveChar(string.charAt(i))
     }
   }
+
+  // HTTP/1.1 200 OK
+  // Content-Type: text/html
+  // Date: Sun, 16 Aug 2020 02:04:29 GMT
+  // Connection: keep-alive
+  // Transfer-Encoding: chunked
+  
+  // 2c1  // 16进制
+  // <html lang=en>
+  //           <head>
+  //             <title>Document</title>
+  //             <style>
+  //               body div #myid{
+  //                 width: 100px;
+  //                 background-color: #ff5000;
+  //               }
+  //               body div img{
+  //                 width: 30px;
+  //                 background-color: #ff1111;
+  //               }
+  //               .body.bodyDiv{
+  //                 width: 100px;
+  //                 background-color: #000;
+  //               }
+  //             </style>
+  //           </head>
+  //           <body>
+  //             <div>
+  //               <img />
+  //               <img id="myid" />
+  //             </div>
+  //             <div class="body bodyDiv">
+  //               111
+  //             </div>
+  //           </body>
+  //           </html>
+          
+  // 0
+  
   receiveChar(char) {
     if (this.current === this.WAITING_STATUS_LINE) {
       if (char === '\r') {
@@ -51,7 +90,7 @@ class ResponseParser {
     } else if (this.current === this.WAITING_HEADER_NAME) {
       if (char === ':') {
         this.current = this.WAITING_HEADER_SPACE
-      } else if (char === '\r') { //没有WAITING_HEADER_VALUE的 \r ，可能是空行，header结束
+      } else if (char === '\r') { // header结束
         this.current = this.WAITING_HEADER_BLOCK_END
         if (this.headers['Transfer-Encoding'] === 'chunked') { // 创建bodyParser
           this.bodyParser = new ChunkedBodyParser()
@@ -123,6 +162,7 @@ class Request {
       }
 
       connection.on('data', (data) => {
+        console.log(data.toString())
         parser.receive(data.toString())
         if (parser.isFinished) {
           resolve(parser.response)
@@ -169,10 +209,12 @@ class ChunkedBodyParser {
         this.current = this.READING_TRUNK
       }
     } else if (this.current === this.READING_TRUNK) {
-      this.content.push(char)
-      this.length--
-      if (this.length === 0) {
-        this.current = this.WAITING_NEW_LINE
+      if (!this.isFinished) {
+        this.content.push(char)
+        this.length--
+        if (this.length === 0) {
+          this.current = this.WAITING_NEW_LINE
+        }
       }
     } else if (this.current === this.WAITING_NEW_LINE) {
       if (char === '\r') {
@@ -196,7 +238,8 @@ void async function () {
       ['X-Foo2']: 'customed'
     },
     body: {
-      name: 'rile'
+      name: 'rile',
+      age: 24
     }
   })
 

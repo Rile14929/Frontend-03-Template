@@ -14,6 +14,17 @@
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}/week03/css-computing/7/client.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "04-1",
+      "protocol": "inspector",
+      "outputCapture": "std",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/week04/1/client.js"
     }
   ]
 }

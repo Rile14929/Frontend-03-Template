@@ -243,11 +243,11 @@ function layout(element) {
           var step = 0
         }
         if (style.justifyContent === 'space-between') {
-          var currentMain = mainSpace / (item.length - 1) * mainSign
+          var step = mainSpace / (item.length - 1) * mainSign
           var currentMain = mainBase
         }
         if (style.justifyContent === 'space-around') {
-          var currentMain = mainSpace / items.length * mainSign
+          var step = mainSpace / items.length * mainSign
           var currentMain = step / 2 + mainBase
         }
         for (var i = 0; i < items.length; i++) {

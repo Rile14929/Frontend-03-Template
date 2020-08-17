@@ -18,13 +18,13 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "04-1",
+      "name": "04-2",
       "protocol": "inspector",
       "outputCapture": "std",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/week04/1/client.js"
+      "program": "${workspaceFolder}/week04/2/client.js"
     }
   ]
 }

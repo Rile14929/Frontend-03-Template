@@ -28,6 +28,7 @@ http.createServer((request, response) => {
                 background-color: #ff1111;
               }
               .body.bodyDiv{
+                display: flex;
                 width: 100px;
                 background-color: #000;
               }
@@ -39,7 +40,8 @@ http.createServer((request, response) => {
               <img id="myid" />
             </div>
             <div class="body bodyDiv">
-              111
+              <div>1111</div>
+              <div>2222</div>
             </div>
           </body>
           </html>

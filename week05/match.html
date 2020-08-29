@@ -26,8 +26,10 @@
     // 检查一个选择器是否匹配当前元素，需要一级一级往父元素去找
     let selectLists = selector.split(" ").reverse(); //所有选择器 ["#id.class","div"]
     // 将得到的第一个选择器进行检索
-    let selectList = selectLists[0].match(/(#|.)?[\w]+/g);
+    let selectList = selectLists[0].match(/(#|.)?[\w]+/g); 
+
     console.log(selectList)
+
     if (selectList.length > 1) {
       // 重新走一遍match函数
       for (let i = 0; i < selectList.length; i++) {
@@ -38,6 +40,7 @@
       // 不返回false
       return true;
     }
+
     if (selector.charAt(0) == "#") {
       var attr = element.attributes['id'].name === 'id';
       if (attr && element.attributes['id'].value === selector.replace("#", "")) {
@@ -55,6 +58,7 @@
         return true;
       }
     }
+
     return false;
   }
   console.log(match("div #id.class", document.getElementById("id")));

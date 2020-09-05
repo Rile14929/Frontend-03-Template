@@ -52,8 +52,37 @@ box-sizing的默认属性是content-box
 
 ### BFC合并
   - Block Container
+    - block
+    - inline-block
+    - table-cell
+    - flex item
+    - grid cell
+    - table-caption
+
   - Block-level Box
+    - Block-level
+      - display: block
+      - display: flex
+      - display: table
+      - display: grid
+    - inline-level
+      - display: inline-block
+      - display: inline-flex
+      - display: inline-table
+      - display: inline-grid
+
   - Block Box = Block Container + Block-level Box
+
+  - 设立BFC
+    - floats
+    - absolute
+    - block container 但不是block box
+    - block box overflow除了visible
+  
+  #### 总结
+  - block box && overflow:visible
+    - BFC 合并与 float
+    - BFC合并与边距折叠
 
 ### FLEX排版
   - 收集盒进行

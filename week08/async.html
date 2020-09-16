@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // async await
+    // {
+    //   function sleep(duration) {
+    //     return new Promise(resolve => {
+    //       setTimeout(resolve, duration);
+    //     })
+    //   }
+    //   async function changeColor(color, duration) {
+    //     await sleep(duration);
+    //     console.log(color);
+    //   }
+    //   async function main() {
+    //     while (true) {
+    //       await changeColor('red', 5000);
+    //       await changeColor('yellow', 2000);
+    //       await changeColor('green', 10000);
+    //     }
+    //   }
+    //   main();
+    // }
+
+    // Promise
+    // {
+    //   function sleep(duration) {
+    //     return new Promise(resolve => {
+    //       setTimeout(resolve, duration);
+    //     })
+    //   }
+    //   function main() {
+    //     console.log('red')
+    //     sleep(2000).then(() => {
+    //       console.log('yellow')
+    //       return sleep(10000)
+    //     }).then(() => {
+    //       console.log('green')
+    //       return sleep(5000)
+    //     }).then(() => {
+    //       main()
+    //     })
+    //   }
+    //   main()
+    // }
+
+    // callback
+    // {
+    //   function main() {
+    //     console.log('red')
+    //     setTimeout(() => {
+    //       console.log('yellow')
+    //       setTimeout(() => {
+    //         console.log('green')
+    //         setTimeout(() => {
+    //           main()
+    //         }, 5000)
+    //       }, 10000)
+    //     }, 2000)
+    //   }
+    //   main()
+    // }
+
+
+    // generator
+    {
+      function sleep(duration) {
+        return new Promise(resolve => {
+          setTimeout(resolve, duration);
+        })
+      }
+
+      function* go() {
+        while(true) {
+          console.log('red')
+          yield sleep(5000)
+          console.log('yellow')
+          yield sleep(2000)
+          console.log('green')
+          yield sleep(10000)
+        }
+      }
+
+      function run(iterator) {
+        let {value, done} = iterator.next()
+        if (done) {
+          return
+        }
+        if (value instanceof Promise) {
+          value.then(() => {
+            run(iterator)
+          })
+        }
+      }
+
+
+      function co(generator) {
+        return function() {
+          return run(generator())
+        }
+      }
+
+      go = co(go)
+
+      go()
+    }
+  </script>
+</body>
+</html>

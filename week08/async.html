@@ -8,64 +8,64 @@
 <body>
   <script>
     // async await
-    // {
-    //   function sleep(duration) {
-    //     return new Promise(resolve => {
-    //       setTimeout(resolve, duration);
-    //     })
-    //   }
-    //   async function changeColor(color, duration) {
-    //     await sleep(duration);
-    //     console.log(color);
-    //   }
-    //   async function main() {
-    //     while (true) {
-    //       await changeColor('red', 5000);
-    //       await changeColor('yellow', 2000);
-    //       await changeColor('green', 10000);
-    //     }
-    //   }
-    //   main();
-    // }
+    {
+      function sleep(duration) {
+        return new Promise(resolve => {
+          setTimeout(resolve, duration);
+        })
+      }
+      async function changeColor(color, duration) {
+        await sleep(duration);
+        console.log(color);
+      }
+      async function main() {
+        while (true) {
+          await changeColor('red', 5000);
+          await changeColor('yellow', 2000);
+          await changeColor('green', 10000);
+        }
+      }
+      // main();
+    }
 
     // Promise
-    // {
-    //   function sleep(duration) {
-    //     return new Promise(resolve => {
-    //       setTimeout(resolve, duration);
-    //     })
-    //   }
-    //   function main() {
-    //     console.log('red')
-    //     sleep(2000).then(() => {
-    //       console.log('yellow')
-    //       return sleep(10000)
-    //     }).then(() => {
-    //       console.log('green')
-    //       return sleep(5000)
-    //     }).then(() => {
-    //       main()
-    //     })
-    //   }
-    //   main()
-    // }
+    {
+      function sleep(duration) {
+        return new Promise(resolve => {
+          setTimeout(resolve, duration);
+        })
+      }
+      function main() {
+        console.log('red')
+        sleep(2000).then(() => {
+          console.log('yellow')
+          return sleep(10000)
+        }).then(() => {
+          console.log('green')
+          return sleep(5000)
+        }).then(() => {
+          main()
+        })
+      }
+      // main()
+    }
 
     // callback
-    // {
-    //   function main() {
-    //     console.log('red')
-    //     setTimeout(() => {
-    //       console.log('yellow')
-    //       setTimeout(() => {
-    //         console.log('green')
-    //         setTimeout(() => {
-    //           main()
-    //         }, 5000)
-    //       }, 10000)
-    //     }, 2000)
-    //   }
-    //   main()
-    // }
+    {
+      function main() {
+        console.log('red')
+        setTimeout(() => {
+          console.log('yellow')
+          setTimeout(() => {
+            console.log('green')
+            setTimeout(() => {
+              main()
+            }, 5000)
+          }, 10000)
+        }, 2000)
+      }
+      // main()
+    }
 
 
     // generator
@@ -108,7 +108,7 @@
 
       go = co(go)
 
-      go()
+      // go()
     }
   </script>
 </body>

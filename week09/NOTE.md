@@ -1,5 +1,6 @@
 # 深度优先搜索算法（Depth-First-Search）
 > 是一种用于遍历或搜索树或图的算法。 这个算法会尽可能深的搜索树的分支。 当节点v的所在边都己被探寻过，搜索将回溯到发现节点v的那条边的起始节点。 这一过程一直进行到已发现从源节点可达的所有节点为止。
+> https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
 
 ```javascript
 function deepTraversal(node) {  
@@ -24,6 +25,7 @@ function deepTraversal(node) {
   如果所有节点均被访问，则算法中止。
   BFS同样属于盲目搜索。
   一般用队列数据结构来辅助实现BFS算法。
+> https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/
 
 ```javascript
 function wideTraversal(node) {  
@@ -40,5 +42,17 @@ function wideTraversal(node) {
       }  
   }  
   return nodes;  
+}
+```
+
+# 发现的问题
+``` javascript
+// 逗号运算符的左侧未使用，没有任何副作用。ts(2695)
+function exp() {
+  let path = []
+  let [x, y] = [4, 5]
+  // 句尾需要加分号，否则下一行的解构会出bug
+  path.push([1, 3]);
+  [x, y] = [7, 8]
 }
 ```

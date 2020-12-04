@@ -1,1 +1,8 @@
-学习笔记
+- linux安装nodejs https://blog.csdn.net/qq_42094345/article/details/109110762
+- node stream
+  - Readable 可读的流，通过代码可以从流中获取数据
+    - Event: 'close'
+    - Event: 'data'
+  - writable (异步)
+    - write
+    - end

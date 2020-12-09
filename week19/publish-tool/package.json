@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish": "scp -r ./*  root@39.101.151.211:/home/publish-tool"
+    "publish": "scp -r ./* root@39.101.xxx.xxx:/home/publish-tool"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^5.1.0"
+  }
 }

@@ -1,36 +1,42 @@
 let http = require("http")
 let fs = require('fs')
 let archiver = require('archiver')
+let child_process = require('child_process');
+let querystring = require('querystring');
 
-fs.stat('./sample.html', (err, stats) => {
+child_process.exec(`start chrome https://github.com/login/oauth/authorize?client_id=Iv1.38820eca71b52415`);
+
+http.createServer(function (request, response) {
+  let query = querystring.parse(request.url.match(/^\/\?([\s\S]+)$/)[1]);
+  publish(query.token);
+}).listen(8083);
+
+function publish(token) {
   let request = http.request({
     hostname: '127.0.0.1',
-    post: 8082,
-    method: "POST",
+    port: 8082,
+    method: 'post',
+    path: `/publish?token=${token}`,
     headers: {
       'Content-Type': 'application/octet-stream',
-      // 'Content-Length': stats.size
+      // 'Content-Length': stats.size,
     }
-  }, response => {})
-  
-  let file = fs.createReadStream("./sample.html")
-  
-  file.pipe(request)
-  
-  file.on('end', () => request.end())
-})
+  }, response => {
+    console.log(response);
+  });
 
-const archive = archiver('zip', {
-  zlib: { level: 9 }
-})
+  const archive = archiver('zip', {
+    zlib: {
+      level: 9
+    }
+  });
 
-archive.directory('./sample/', false)
+  archive.directory('./sample/', false)
 
-archive.finalize()
+  archive.finalize()
 
-archive.pipe(request)
-
-
+  archive.pipe(request)
+}
 
 // file.on('data', chunk => {
 //   console.log(chunk.toString())

@@ -10,4 +10,8 @@
 - 压缩 archiver
 - 解压 unzipper
 
-- oAuth
+- github oAuth
+  - 访问https://github.com/login/oauth/authorize进行登录，通过跳转后的url参数获取token
+  - 服务端携带client_id,client_secret,code访问https://github.com/login/oauth/access_token换取access_token
+  - 拿access_token到https://api.github.com/user获取user信息
+  - 检查权限，接受发布
